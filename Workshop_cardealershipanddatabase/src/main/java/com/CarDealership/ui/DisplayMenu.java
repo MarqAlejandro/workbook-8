@@ -28,8 +28,10 @@ public class DisplayMenu {
                 
                 \t10) - Sale / Lease a Vehicle\
                 
-                \t99) - Quit
+                \t11) - Change Dealerships\
                 
-                Enter:\s""");
+                \t99) - Quit\
+                
+                """);
     }
 }

@@ -1,4 +1,4 @@
-package com.CarDealership.data;
+package com.CarDealership.data.dealership;
 
 import com.CarDealership.model.Vehicle;
 

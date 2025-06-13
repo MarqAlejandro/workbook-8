@@ -2,30 +2,33 @@ package com.CarDealership.ui;
 
 import com.CarDealership.contract.LeaseContract;
 import com.CarDealership.contract.SalesContract;
-import com.CarDealership.data.Dealership;
-import com.CarDealership.data.DealershipFileManager;
+import com.CarDealership.data.DealershipDatabaseManager;
+import com.CarDealership.data.VehicleDatabaseManager;
+import com.CarDealership.data.dealership.Dealership;
+import com.CarDealership.data.dealership.DealershipFileManager;
 import com.CarDealership.model.Vehicle;
 import com.CarDealership.model.vehicleCreator;
 
-import java.util.Scanner;
+
 
 public class UserInterface {
 
     private Dealership dealership;                  //init method will fill in the rest later
 
 
-    private void init(){
-        dealership = DealershipFileManager.getDealership();
+    public void loadDealership(){
+        dealership = DealershipDatabaseManager.getDatabaseDealershipInfo();
+    }
+
+    private void refresh(Dealership dealership){
+        this.dealership = new Dealership(dealership.getDealershipID(), dealership.getName(),
+                                         dealership.getAddress(), dealership.getPhone());
     }
 
 
     public void display(){
-        init();
         DisplayMenu.displayMenu();
-        Scanner scanner = new Scanner(System.in);
-
-        int userInput = scanner.nextInt();
-        scanner.nextLine();
+        int userInput = InputPrompter.getIntInput();
 
         switch (userInput){                                                                                             //switch case with multiple options 1 - 6 display cars if they fill the user's input
             case 1:
@@ -64,11 +67,13 @@ public class UserInterface {
                 break;
             case 8:
                 Vehicle addVehicle = vehicleCreator.createVehicle();                        //adds a vehicle to the list and to the .csv file
-                dealership.addVehicles(addVehicle);
-                dealership.fileSave();
+                VehicleDatabaseManager.addVehicleToTableVehicles( addVehicle);
+                VehicleDatabaseManager.addVehicleToInventory(dealership, addVehicle);
+                refresh(dealership);
                 display();
                 break;
             case 9:
+                dealership.getAllVehicles();
                 System.out.println("To remove a Vehicle, Please enter its VIN.");
                 int vin = InputPrompter.getIntInput();                                                                        //removes a vehicle from the list and from the .csv file
                 dealership.removeVehicles(vin);
@@ -78,7 +83,7 @@ public class UserInterface {
             case 10:
                 String userChoice = ContractPrompter.saleOrLease();
                 if(userChoice.equalsIgnoreCase("s")) {
-                    SalesContract salesContract = com.CarDealership.ui.ContractMediator.displayAndReturnSaleContract();
+                    SalesContract salesContract = ContractMediator.displayAndReturnSaleContract();
                     dealership.removeVehicles(salesContract.getVehicle().getVin());
                     dealership.fileSave();
                 }
@@ -87,9 +92,11 @@ public class UserInterface {
                     dealership.removeVehicles(leaseContract.getVehicle().getVin());
                     dealership.fileSave();
                 }
-
                 display();
                 break;
+            case 11:
+                loadDealership();
+                display();
             case 99:                                                                        //exit method
                 exit();
                 break;

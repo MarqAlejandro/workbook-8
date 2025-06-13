@@ -1,22 +1,27 @@
-package com.CarDealership.data;
+package com.CarDealership.data.dealership;
 
+import com.CarDealership.data.DealershipDatabaseManager;
 import com.CarDealership.model.Vehicle;
 
 import java.util.List;
 
 public class Dealership {
 
+    private int dealershipID;
     private String name;
     private String address;
     private String phone;
-    private static List<Vehicle> inventory = DealershipFileManager.getInventory();                  //gets list from the fileManager class
+    private List<Vehicle> inventory;                       //gets list from the fileManager class
 
-    public Dealership(String name, String address, String phone) {                                  //constructors
+    public Dealership(int dealershipID,String name, String address, String phone) {                                  //constructors
+        this.dealershipID = dealershipID;
         this.name = name;
         this.address = address;
         this.phone = phone;
+        this.inventory = DealershipDatabaseManager.getDatabaseInventory(name);
     }
     public Dealership(){
+        this.dealershipID = 0;
         this.name = "";
         this.address = "";
         this.phone = "";
@@ -45,6 +50,9 @@ public class Dealership {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+    public int getDealershipID() {return dealershipID;  }
+
+    public void setDealershipID(int dealershipID) { this.dealershipID = dealershipID; }
 
     public void getVehiclesByPrice(double min,double max){                                              //for loop and print out vehicles within the range
         boolean isFound = false;

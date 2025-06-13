@@ -6,10 +6,7 @@ import java.sql.*;
 
 public class DatabaseDriver {
 
-
-        public static void main(String[] args) {
-
-            String url = "jdbc:sqlserver://skills4it.database.windows.net:1433;" +
+            private static final String url = "jdbc:sqlserver://skills4it.database.windows.net:1433;" +
                     "database=Courses;" +
                     "user=user419@skills4it;" +
                     "password=YearupSecure2025!;" +
@@ -18,23 +15,11 @@ public class DatabaseDriver {
                     "loginTimeout=30;";
 
 
+            public static String getUrl(){
+                    return url;
 
-            try (Connection conn = DriverManager.getConnection(url);
-                 Statement stmt = conn.createStatement();
-                 ResultSet rs = stmt.executeQuery("SELECT * FROM MARQ.DEALERSHIPS")) {
-
-                while (rs.next()) {
-                    System.out.println("ID: " + rs.getInt("dealership_id") +
-                            ", Name: " + rs.getString("name"));
-                }
-
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
 
-
-
-        }
 
 
 
