@@ -67,8 +67,7 @@ public class UserInterface {
                 break;
             case 8:
                 Vehicle addVehicle = vehicleCreator.createVehicle();                        //adds a vehicle to the list and to the .csv file
-                VehicleDatabaseManager.addVehicleToTableVehicles( addVehicle);
-                VehicleDatabaseManager.addVehicleToInventory(dealership, addVehicle);
+                VehicleDatabaseManager.addVehicleToTables(dealership, addVehicle);
                 refresh(dealership);
                 display();
                 break;
@@ -76,8 +75,8 @@ public class UserInterface {
                 dealership.getAllVehicles();
                 System.out.println("To remove a Vehicle, Please enter its VIN.");
                 int vin = InputPrompter.getIntInput();                                                                        //removes a vehicle from the list and from the .csv file
-                dealership.removeVehicles(vin);
-                dealership.fileSave();
+                VehicleDatabaseManager.removeVehicleFromTables(vin);
+                refresh(dealership);
                 display();
                 break;
             case 10:

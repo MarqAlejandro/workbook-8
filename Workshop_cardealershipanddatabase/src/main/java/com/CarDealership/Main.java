@@ -18,7 +18,7 @@ public class Main {
 
 /*
     work on fixing  8) - add a vehicle - done
-                    9) - remove a vehicle
+                    9) - remove a vehicle - done
                     10)- sale / lease a vehicle
 
 
